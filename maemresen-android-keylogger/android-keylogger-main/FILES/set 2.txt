@@ -1,0 +1,47 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import tree
+df=pd.read_csv("/content/Iris.csv")
+x=df.drop('Species',axis=1)
+y=df[['Species']]
+x_train,x_test,y_train,y_test=train_test_split(x, y, test_size = 0.1,random_state=42)
+
+# Decision tree
+clf_model = DecisionTreeClassifier(criterion="gini",random_state=42,max_depth=3, min_samples_leaf=5)
+clf_model.fit(x_train,y_train)
+y_predict = clf_model.predict(x_test)
+from sklearn.metrics import accuracy_score
+print("\nThe Accuracy of the Model using Decision Tree Classifier is : ",accuracy_score(y_test,y_predict))
+from sklearn.tree import plot_tree
+plot_tree(clf_model)
+
+# Naive bayes
+from sklearn.naive_bayes import GaussianNB
+model = GaussianNB()
+model.fit(x_train, y_train)
+predicted = model.predict(x_test)
+print("Actual Value", y_test)
+print("Predicted Value", predicted)
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_pred, y_test)*100
+accuracy
+
+#svm
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix,accuracy_score
+clfr = SVC(kernel='linear')
+clfr.fit(x, y)
+y_pred=clfr.predict(x_test)
+y_pred
+
+#knn
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=7)
+knn.fit(x_train, y_train)
+knn.predict(x_test),

@@ -1,0 +1,23 @@
+#Linear Regression using Gradient Descent
+
+import numpy as np
+x=np.array([2,3,4,5,6,7,8,9,10])
+y=np.array([5,6,10,12,11,14,18,20,22])
+lr=0.01
+
+def gradientDescent(x,y,lr,iterations):
+  m,c=0,0
+  iter=0
+  loss=[np.sum((y-c-(m*x))**2)/len(x)]
+  while iter<iterations and loss!=0:
+    Dc=(-2)*(np.sum(y-c-(m*x)))/len(x)
+    Dm=(-2)*(np.sum(np.matmul(x,(y-c-(m*x)))))/len(x)
+    m=m-lr*Dm
+    c=c-lr*Dc
+    loss.append(np.sum((y-c-(m*x))**2)/len(x))
+    iter+=1
+  print(m,c)
+  return loss
+loss=gradientDescent(x,y,lr,20)
+for i in loss:
+  print(i)

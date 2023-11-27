@@ -1,0 +1,39 @@
+.features {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  .paragraph-spacing {
+    margin-top: 10px;
+  }
+  
+  .font-large {
+    font-size: 18px;
+  }
+  
+  .section-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .font-small {
+    font-size: 16px;
+  }
+  

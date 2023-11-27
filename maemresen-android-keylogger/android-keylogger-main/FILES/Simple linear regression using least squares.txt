@@ -1,0 +1,28 @@
+# Simple linear regression using least squares
+import matplotlib.pyplot as pt
+import numpy as np
+import math
+
+x=np.array([2,3,4,5,6,7,8,9,10])
+y=np.array([5,6,10,12,11,14,18,20,22])
+###Computing Coefficients using Least-Squares
+x_mean=sum(x)/len(x)
+y_mean=sum(y)/len(y)
+Sxy=np.sum(x*y)-len(x)*x_mean*y_mean
+Sxx=np.sum(x*x)-len(x)*x_mean*x_mean
+
+m = Sxy / Sxx
+b = y_mean - m * x_mean
+ypred = m * x + b
+
+sse=np.sum((y-ypred)**2)
+mse=sse/len(y)
+rmse=math.sqrt(mse)
+ssr=np.sum((ypred-y_mean)**2)
+sst=np.sum((y-y_mean)**2)
+rsquared=ssr/sst
+
+ax=pt.axes()
+ax.scatter(x,y)
+ax.plot(x,ypred,color="red")
+pt.show()

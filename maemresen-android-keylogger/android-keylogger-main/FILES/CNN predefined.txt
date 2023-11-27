@@ -1,0 +1,35 @@
+from keras.applications import InceptionResNetV2
+from keras.applications.inception_resnet_v2 import preprocess_input
+from keras.utils import load_img
+from keras.utils import img_to_array
+from keras.applications.inception_resnet_v2 import decode_predictions
+from keras.applications import VGG16
+from keras.applications.vgg16 import decode_predictions
+import matplotlib.pyplot as plt
+
+#resnet
+image=load_img('/content/-original-imaggbrccwsnygar.webp',target_size=(299, 299, 3))
+image=img_to_array(image)
+image=image.reshape((1,image.shape[0],image.shape[1],ima
+ge.shape[2]))
+image=preprocess_input(image)
+plt.imshow(image[0])
+model = InceptionResNetV2()
+model.summary()
+label=decode_predictions(model.predict(image))
+# print(label)
+print(label[0][0][1])
+
+#vggnet
+from keras.applications.vgg16 import preprocess_input
+image=load_img('/content/-original-imaggbrccwsnygar.webp',target_size=(224, 224, 3))
+plt.imshow(image,cmap=plt.get_cmap('gray'))
+image=img_to_array(image)
+image=image.reshape((1,image.shape[0],image.shape[1],ima
+ge.shape[2]))
+image=preprocess_input(image)
+plt.imshow(image[0])
+model=VGG16()
+model.summary()
+label=decode_predictions(model.predict(image))
+print(label[0][0][1])

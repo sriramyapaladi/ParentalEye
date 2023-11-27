@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+d={"X1":[2,4,5,5,1,1,2,4],"X2":[1,2,1,2,4,2,3,3],"Y":[1,1,1,1,2,2,2,2]}
+X=[[2,1],[4,2],[5,1],[5,2],[1,4],[1,2],[2,3],[4,3]]
+Y=d["Y"]
+df=pd.DataFrame(d)
+d.values()
+correlation=df.drop("Y",axis=1).corr()
+covariance=df.drop("Y",axis=1).cov()
+
+import seaborn as sns
+cor=df.corr()
+sns.heatmap(cor,annot=True)
+
+#lda
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as lda
+clf=lda()
+clf.fit(X,Y)
+new_x=clf.transform(X)
+new_x
+
+#pca
+from sklearn.decomposition import PCA
+clf1=PCA(n_components=2)
+clf1.fit(X)
+new_x1=clf1.transform(X)
+new_x1

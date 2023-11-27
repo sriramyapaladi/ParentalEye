@@ -1,0 +1,37 @@
+from tensorflow.keras.datasets import mnist
+from matplotlib import pyplot as plt
+from keras.models import Sequential
+from keras.layers.core import Dense
+from keras.layers import Conv2D,MaxPooling2D,Dense,Flatten
+import cv2
+import numpy as np
+from keras.optimizers import SGD,Adam
+from keras.utils import to_categorical
+(Xtrain,Ytrain),(Xtest,Ytest) =mnist.load_data()
+Ytrain=to_categorical(Ytrain)
+Ytest=to_categorical(Ytest)
+
+print(f'Train: x={Xtrain.shape} y={Ytrain.shape}')
+plt.imshow(Xtrain[8],cmap=plt.get_cmap('gray'))
+print('Label:',Ytrain[8])
+
+model= Sequential()
+model.add(Conv2D(32,(3,3),activation='relu',input_shape=(28,28,1)))
+model.add(MaxPooling2D((2,2)))
+model.add(Flatten())
+model.add(Dense(100, activation='relu'))
+model.add(Dense(10, activation='softmax'))
+model.summary()
+
+opt=SGD(momentum=0.9,learning_rate=0.01)
+model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
+model.fit(Xtrain, Ytrain, epochs=10,batch_size=32,validation_data=(Xtest,Ytest),verbose=2)
+
+image = cv2.imread(r"/Screenshot from 2023-07-06 15-10-48.png")
+image=cv2.resize(image, (28,28))
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+print(image.shape)
+
+plt.imshow(image,cmap=plt.get_cmap('gray'))
+tstlb = model.predict(np.expand_dims(image,0))
+print(tstlb.argmax(axis=-1))

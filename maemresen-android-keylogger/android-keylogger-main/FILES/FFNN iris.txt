@@ -1,0 +1,24 @@
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+ds = load_iris()
+X = ds.data
+Yname = ds.target
+from sklearn import preprocessing
+lb = preprocessing.LabelBinarizer()
+Y = lb.fit_transform(Yname)
+Xtr,Xtest,Ytr,Ytest = train_test_split(X,Y,train_size = 0.7)
+
+model = Sequential()
+model.add(Dense(10, activation='relu'))
+model.add(Dense(5, activation='relu'))
+model.add(Dense(3, activation='softmax'))
+model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
+model.fit(Xtr, Ytr, epochs=100, verbose=2)
+
+ypred = model.predict(Xtest)
+ypredcl = ypred.argmax(axis=-1)
+Ytestcl = lb.inverse_transform(Ytest)
+print(Ytestcl)
+# Loss between Ytest and ypred
+from sklearn.metrics import confusion_matrix
+print(confusion_matrix(Ytestcl,ypredcl))

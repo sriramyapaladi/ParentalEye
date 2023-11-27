@@ -1,0 +1,49 @@
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.cluster import AgglomerativeClustering
+from sklearn.mixture import GaussianMixture
+from scipy.cluster.hierarchy import linkage, dendrogram
+from matplotlib import pyplot as plt
+df = pd.read_csv('/content/Iris.csv')
+df_nolabel=df.drop('Species',axis=1)
+df_list=df_nolabel.to_numpy()
+
+#kmeans
+km=KMeans(n_clusters=5,init='random',n_init=1,max_iter=100)
+cl_idxK=km.fit_predict(df_nolabel)
+print(cl_idxK)
+from collections import defaultdict
+dKm=defaultdict(list)
+for i in range(150):
+  dKm[cl_idxK[i]].append(df_list[i])
+for i,j in dKm.items():
+  print(i,":",j)
+  cl0_idx=km.fit_predict(dKm[0])
+  cl0_idx
+
+#EM 
+gm=GaussianMixture(n_components=5,random_state=0)
+cl_idxg=gm.fit_predict(df_nolabel)
+cl_idxg
+
+gmodel=gm.fit(df_nolabel)
+print(gmodel)
+print(gmodel.predict_proba(df_nolabel))
+
+#Agglomerative
+ace=AgglomerativeClustering(n_clusters=5,metric='euclidean',compute_distances=True)
+cl_idxAe=ace.fit_predict(df_nolabel)
+print(cl_idxAe)
+from collections import defaultdict
+dAce=defaultdict(list)
+for i in range(150):
+  dAce[cl_idxAe[i]].append(df_list[i])
+for i,j in dAce.items():
+  print(i,":",j)
+  cl0_idxAe=ace.fit_predict(dAce[0])
+  cl0_idxAe
+
+m=linkage(df_nolabel,method='average')
+plt.figure(figsize=(15,5))
+dendrogram(m,labels=cl_idxAe)
+plt.show()

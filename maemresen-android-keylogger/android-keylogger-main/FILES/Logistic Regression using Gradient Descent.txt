@@ -1,0 +1,47 @@
+import numpy as np
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+def sigmoid(z):
+    return 1/(1+np.exp(-z))
+def threshold(x):
+    return [1 if i>0.5 else 0 for i in x]
+def normalize(x):
+    x_mean = np.mean(x)
+    x = (x - x_mean)/np.std(x)
+    return x
+#----- 
+def GradientLg(x,y,lr,iterations):
+  m,c=0,0
+  p=np.array(sigmoid(c+m*x))
+  iter=0
+  loss=[-np.mean(y*(np.log(p))+(1-y)*np.log(1-p))]
+  for l in range(iterations):
+    Dc=-np.sum(y-p)/len(x)
+    Dm=-np.sum(x*(y-p))/len(x)
+    m=m-lr*Dm
+    c=c-lr*Dc
+    p=np.array(sigmoid(c+m*x))
+    loss.append(-np.mean(y*(np.log(p))+(1-y)*np.log(1-p)))
+    iter+=1
+  return m,c
+#----- 
+x1  = np.array([2,3,4,5,6,7,8,9,10,11])
+y = np.array([0,0,0,1,0,1,1,1,0,1])
+x = normalize(x1)
+#--
+l=GradientLg(x,y,0.01,250)
+print(l)
+y_hat=sigmoid(l[1]+l[0]*x)
+y_hat=threshold(y_hat)
+y_hat
+#--
+#Evaluation
+accuracy = accuracy_score(y, y_hat)
+print("Accuracy   :", accuracy)
+precision = precision_score(y, y_hat)
+print("Precision :", precision)
+recall = recall_score(y, y_hat)
+print("Recall    :", recall)
+F1_score = f1_score(y, y_hat)
+print("F1-score  :", F1_score)
+
